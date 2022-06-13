@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>Cajero Automatico</title>
+</head>
+
+<body>
+  <div id="app" class="d-flex flex-column ">
+    <header class="w-100" v-if="viewMain===0">
+        <div class="container w-100 h-50 d-flex justify-content-center">
+          <h1>Banco del norte</h1>
+        </div>
+    </header>
+    <div id="container-secondary" class="container d-flex flex-column justify-content-between" v-if="viewMain===0"> 
+      <div class="container mt-5 d-flex flex-column align-items-center rounded" id="container-div">
+        <div class="form-floating mb-3 mt-2 w-50" v-if="viewInput===0">
+          <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userId">
+          <label for="floatingInput">Ingrese los 4 últimos dígitos de su cédula</label>
+        </div>
+        <div class="form-floating mb-3 w-50" v-if="viewInput===1">
+          <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userPin">
+          <label for="floatingInput">Ingrese su Pin</label>
+        </div>
+      </div>
+      <div class=" container mt-2 rounded h-100 d-flex justify-content-center" id="container-div">
+        <div class="container w-50 row justify-content-md-center">
+          <div class="row justify-content-md-between align-items-center">
+            <button   class="col-3 h-50" @click="verDisplay(1)" value="1" >1</button>
+            <button class="col-3 h-50" @click="verDisplay(2)" value="2" >2</button>
+            <button class="col-3 h-50" @click="verDisplay(3)" value="3" >3</button>
+          </div>
+          <div class="row justify-content-md-between align-items-center" >
+            <button class="col-3 h-50" @click="verDisplay(4)" value="4">4</button>
+            <button class="col-3 h-50" @click="verDisplay(5)" value="5">5</button>
+            <button class="col-3 h-50" @click="verDisplay(6)" value="6">6</button>
+          </div>
+          <div class="row justify-content-md-between align-items-center">
+            <button class="col-3 h-50" @click="verDisplay(7)" value="7">7</button>
+            <button class="col-3 h-50" @click="verDisplay(8)" value="8">8</button>
+            <button class="col-3 h-50" @click="verDisplay(9)" value="9">9</button>
+          </div>
+          <div class="row justify-content-md-between align-items-center">
+            <button class="col-3 h-50"></button>
+            <button class="col-3 h-50" @click="verDisplay(0)" value="0">0</button>
+            <button class="col-3 h-50"></button>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-2 rounded mb-2 h-25 d-flex align-items-center" id="container-div">
+        <div class="container d-flex justify-content-between h-50 w-50">
+          <button class="col-3" @click="validate">Aceptar</button>
+          <button class="col-3">Cancelar</button>
+          <button class="col-3" @click="erase">Coregir</button>
+        </div>
+      </div>
+
+
+    </div>
+     
+    <div class="container-div container d-flex flex-column w-50 h-50 rounded" v-if="viewMain===1">
+      <h1 class="d-flex justify-content-center">Bienvenido usuario: {{nameUser}}</h1>
+
+      <div class="d-flex flex-column justify-content-end h-100">
+        <div class="form-floating mb-3" v-if="viewAction===2">
+          <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Cantidad a retirar</label>
+        </div>
+        <div class="form-floating mb-3" v-if="viewAction===3">
+          <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Cantidad a consignar</label>
+        </div>
+        <div class="container-button d-flex justify-content-between h-50" v-if="viewAction===1">
+          <button class="col-4" @click="action(1)" value="1">Consignar</button>
+          <button class="col-4" @click="action(2)" value="2">Retirar</button>
+        </div>
+        <div class="container-button d-flex justify-content-between mt-1 h-50" v-if="viewAction2===1">
+          <button class="col-4">Aceptar</button>
+          <button class="col-4" @click="cancel">Cancelar</button>
+        </div>
+
+      </div>
+      <div class="d-flex flex-column justify-content-center h-50 mt-1" >
+        <div class="d-flex justify-content-center mb-5" v-if="viewInput===2">
+          <h1>Saldo retirado Exitosamente</h1>
+        </div>
+        <div class="d-flex justify-content-center mb-5" v-if="viewInput===3">
+          <h1>Saldo consignado Exitosamente</h1>
+        </div>
+        <div class="container-button d-flex justify-content-between" v-if="viewShow===true">
+          <button class="col-4">Ver saldo</button>
+          <button class="col-4">Terminar</button>
+        </div>
+      
+      </div>
+
+    </div>
+    
+
+
+  </div>
+  <script src="js/vue.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
