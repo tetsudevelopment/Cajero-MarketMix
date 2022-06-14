@@ -11,32 +11,36 @@ var app = new Vue({
       ],
       dataUser: [
         {
-          nameUser: "Brayan",
           userId: "7269",
           userPin: "1234",
           money: 1000000,
+          staus: true,
         },
         {
-          userId: 7894,
-          userPin: 1234,
+          userId: "7894",
+          userPin: "1234",
           money: 2000000,
+          staus: true,
         },
         {
-          userId: 5612,
-          userPin: 1234,
+          userId: "5612",
+          userPin: "1234",
           money: 2000000,
-        },
-        ,
-        {
-          userId: 1123,
-          userPin: 1234,
-          money: 2000000,
+          staus: true,
         },
         ,
         {
-          userId: 4567,
-          userPin: 1234,
+          userId: "1123",
+          userPin: "1234",
           money: 2000000,
+          staus: true,
+        },
+        ,
+        {
+          userId: "4567",
+          userPin: "1234",
+          money: 2000000,
+          staus: true,
         },
       ],
       prueba: [
@@ -46,7 +50,7 @@ var app = new Vue({
         },
       ],
       dataOn: [],
-      userId: "7269",
+      userId: "5611",
       userPin: "1234",
       nameUser: "",
       viewShow: false,
@@ -59,52 +63,47 @@ var app = new Vue({
   methods: {
     backup() {
       let dataUser = this.dataUser;
-       dataUser = dataUser.filter((item) => item.userId === this.userId);
-       dataUser = dataUser.find((item) => item.userId === this.userId);
-       let userId = parseInt(dataUser.userId);
-       if (this.userId.length > 4 || this.userId.length < 4) {
-         alert("Ingrese los ultimos 4 digitos de su cedula");
-       } else {
-         if (userId === this.userId) {
-           this.viewInput = 1;
-         } else {
-           alert("El usuario es incorrecto");
-         }
-       }
-    },
-    validateUser() {
-            let dataUser = this.dataUser;
-            let id = dataUser.filter((item) => item.userId === this.userId);
-            if (this.userId.length > 4 || this.userId.length < 4) {
-              alert("Ingrese los ultimos 4 digitos de su cedula");
-            } else {
-              if (id[0].userId === this.userId) {
-                this.viewInput = 1;
-              } else {
-                alert("Error");
-              }
-            }
-    },
-    validatePin() {
-    },
-    validate() {
-      if (this.viewInput === 0) {
-        this.validateUser()
+      dataUser = dataUser.filter((item) => item.userId === this.userId);
+      dataUser = dataUser.find((item) => item.userId === this.userId);
+      let userId = parseInt(dataUser.userId);
+      if (this.userId.length > 4 || this.userId.length < 4) {
+        alert("Ingrese los ultimos 4 digitos de su cedula");
       } else {
-        let dataUser = this.dataUser;
-        let id = dataUser.filter((item) => item.userId === this.userId);
-        if (this.userPin.length > 4 || this.userPin.length < 4) {
-          alert("Ingrese el Pin de 4 digitos");
+        if (userId === this.userId) {
+          this.viewInput = 1;
         } else {
-          if (id[0].userPin === this.userPin ) {
-            this.viewMain = 1;
-            this.nameUser = id[0].nameUser
-            this.viewAction = 1;
-          } else {
-            alert("Error");
-          }
+          alert("El usuario es incorrecto");
         }
       }
+    },
+    validateUser() {
+      const dataUser = Object.values(this.dataUser);
+      const index = dataUser.findIndex((item) => {
+        return item.userId === this.userId;
+      });
+      if (index != -1) {
+        if (dataUser[index].userId === this.userId) {
+          return (this.viewInput = 1);
+        }
+      } else {
+        if (index === -1) {
+          alert("El usuario no existe");
+        }
+      }
+    },
+    validatePin() {
+      const dataUser = Object.values(this.dataUser);
+      const index = dataUser.findIndex((item) => {
+        return item.userId === this.userId;
+      });
+      if (index != -1) {
+        if (dataUser[index].userPin === this.userPin) {
+          return (this.viewInput = 1);
+        }
+      }
+    },
+    validate() {
+      
     },
     verDisplay(num) {
       if (this.viewInput === 1) {
