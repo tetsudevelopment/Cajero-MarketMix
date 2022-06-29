@@ -15,31 +15,92 @@
 </head>
 
 <body>
-  <div id="app" class="d-flex flex-column ">
+  <div id="app" >
     <header class="w-100" v-if="viewMain===0">
         <div class="container w-100 h-50 d-flex justify-content-center">
           <h1>Banco del norte</h1>
         </div>
     </header>
-    <div id="container-secondary" class="container d-flex flex-column justify-content-between" v-if="viewMain===0"> 
-      <div class="container mt-5 d-flex flex-column align-items-center rounded" id="container-div">
-        <div class="form-floating mb-3 mt-2 w-50" v-if="viewInput===0">
-          <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userId">
-          <label for="floatingInput">Ingrese los 4 últimos dígitos de su cédula</label>
+
+    <div class="container container-div rounded" v-if="viewMain===0">
+      <div class="row justify-content-center mt-5 p-5">
+        <div class="col-8 text-center">
+          <div class="form-floating" v-if="viewInput===0">
+            <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userId">
+            <label for="floatingInput">Ingrese los 4 últimos dígitos de su cédula</label>
+          </div>
         </div>
-        <div class="form-floating mb-3 w-50" v-if="viewInput===1">
-          <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userPin">
-          <label for="floatingInput">Ingrese su Pin</label>
+        <div class="col-8 text-center">
+          <div class="form-floating" v-if="viewInput===1">
+            <input type="number" class="form-control" id="floatingInput" placeholder="1234" v-model="userPin">
+            <label for="floatingInput">Ingrese su Pin</label>
+          </div>
         </div>
       </div>
+    </div>
+     
+    <div class="container-div container  rounded mt-5" v-if="viewMain===1">
+      <h1 class=" text-center">Bienvenido usuario: <span v-text="dataOn.name"></span></h1>
+      <h3 class="mt-2">Saldo: $<span v-text="dataOn.money"></span></h3>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-8" v-if="viewAction==2">
+            <div class="form-floating mb-3" >
+              <input type="number" class="form-control" id="floatingInput" placeholder="numero" v-model="retirar">
+              <label for="floatingInput">Cantidad a retirar</label>
+            </div>
+            <button class="btn btn-primary p-3" @click="action(0)">Regresar</button>
+
+          </div>
+          <div class="col-8" v-if="viewAction==3">
+            <div class="form-floating mb-3" >
+              <input type="number" class="form-control" id="floatingInput" placeholder="Numero" v-model="consignar">
+              <label for="floatingInput">Cantidad a consignar</label>
+            </div>
+            <button class="btn btn-primary p-3" @click="action(0)">Regresar</button>
+          </div>
+          
+
+
+          <div class="col-12 mt-4"  v-if="viewAction==0">
+              <div class="d-flex justify-content-between">
+                <button class="col-3 btn btn-primary p-3" @click="action(1)" value="1">Consignar</button>
+                <button class="col-3  btn btn-primary p-3" @click="action(2)" value="2">Retirar</button>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column justify-content-end h-100">
+        
+        
+        
+      </div>
+      <div class="d-flex flex-column justify-content-center h-50 mt-1" >
+        <div class="d-flex justify-content-center mb-5" v-if="viewAction2==1">
+          <h1>Saldo retirado Exitosamente</h1>
+        </div>
+        <div class="d-flex justify-content-center mb-5" v-if="viewAction2==2">
+          <h1>Saldo consignado Exitosamente</h1>
+        </div>
+        <div class="container-button d-flex justify-content-between mb-3" v-if="viewShow===true">
+          <button class="col-4 btn btn-primary" @click="action(0)">Regresar</button>
+          <button class="col-4 btn btn-primary" @click="action(3)">Terminar</button>
+        </div>
+      
+      </div>
+
+    </div>
+
+    <!-- Tablero -->
+    <div class="container h-100">
       <div class=" container mt-2 rounded h-100 d-flex justify-content-center" id="container-div">
         <div class="container w-50 row justify-content-md-center">
           <div class="row justify-content-md-between align-items-center">
-            <button   class="col-3 h-50" @click="verDisplay(1)" value="1" >1</button>
-            <button class="col-3 h-50" @click="verDisplay(2)" value="2" >2</button>
-            <button class="col-3 h-50" @click="verDisplay(3)" value="3" >3</button>
+            <button class="col-3 h-50" @click="verDisplay(1)" value="1">1</button>
+            <button class="col-3 h-50" @click="verDisplay(2)" value="2">2</button>
+            <button class="col-3 h-50" @click="verDisplay(3)" value="3">3</button>
           </div>
-          <div class="row justify-content-md-between align-items-center" >
+          <div class="row justify-content-md-between align-items-center">
             <button class="col-3 h-50" @click="verDisplay(4)" value="4">4</button>
             <button class="col-3 h-50" @click="verDisplay(5)" value="5">5</button>
             <button class="col-3 h-50" @click="verDisplay(6)" value="6">6</button>
@@ -63,48 +124,7 @@
           <button class="col-3" @click="erase">Coregir</button>
         </div>
       </div>
-
-
     </div>
-     
-    <div class="container-div container d-flex flex-column w-50 h-50 rounded" v-if="viewMain===1">
-      <h1 class="d-flex justify-content-center">Bienvenido usuario: {{nameUser}}</h1>
-
-      <div class="d-flex flex-column justify-content-end h-100">
-        <div class="form-floating mb-3" v-if="viewAction===2">
-          <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Cantidad a retirar</label>
-        </div>
-        <div class="form-floating mb-3" v-if="viewAction===3">
-          <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Cantidad a consignar</label>
-        </div>
-        <div class="container-button d-flex justify-content-between h-50" v-if="viewAction===1">
-          <button class="col-4" @click="action(1)" value="1">Consignar</button>
-          <button class="col-4" @click="action(2)" value="2">Retirar</button>
-        </div>
-        <div class="container-button d-flex justify-content-between mt-1 h-50" v-if="viewAction2===1">
-          <button class="col-4">Aceptar</button>
-          <button class="col-4" @click="cancel">Cancelar</button>
-        </div>
-
-      </div>
-      <div class="d-flex flex-column justify-content-center h-50 mt-1" >
-        <div class="d-flex justify-content-center mb-5" v-if="viewInput===2">
-          <h1>Saldo retirado Exitosamente</h1>
-        </div>
-        <div class="d-flex justify-content-center mb-5" v-if="viewInput===3">
-          <h1>Saldo consignado Exitosamente</h1>
-        </div>
-        <div class="container-button d-flex justify-content-between" v-if="viewShow===true">
-          <button class="col-4">Ver saldo</button>
-          <button class="col-4">Terminar</button>
-        </div>
-      
-      </div>
-
-    </div>
-    
 
 
   </div>
